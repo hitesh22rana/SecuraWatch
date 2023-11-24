@@ -1,0 +1,4 @@
+fastapi==0.104.1
+pydantic-settings==2.1.0
+uvicorn==0.24.0.post1
+orjson==3.9.10
