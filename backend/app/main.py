@@ -1,7 +1,8 @@
 # Purpose: Main file and entry point of the application
 # Path: backend\app\main.py
 
-from fastapi import FastAPI, HTTPException, Request, status
+import aiofiles
+from fastapi import FastAPI, Request, UploadFile, File, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,3 +41,23 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+
+@app.post("/upload")
+async def upload(file: UploadFile = File(...)):
+    try:
+        async with aiofiles.open(f"{file.filename}", "wb") as f:
+            while chunk := await file.read(1024 * 1024):
+                await f.write(chunk)
+
+        return JSONResponse(
+            content={"message": "Video uploaded successfully"},
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST",
+                "Access-Control-Allow-Headers": "Content-Type",
+            },
+        )
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

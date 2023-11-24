@@ -2,3 +2,5 @@ fastapi==0.104.1
 pydantic-settings==2.1.0
 uvicorn==0.24.0.post1
 orjson==3.9.10
+python-multipart==0.0.6
+aiofiles==23.2.1
