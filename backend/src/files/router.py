@@ -1,9 +1,6 @@
-# Purpose: Files router for handling files related operations.
-# Path: backend\app\routers\files.py
-
 from fastapi import APIRouter, File, UploadFile
 
-from app.services.files import FileService
+from src.files.service import FileService
 
 router = APIRouter(
     tags=["Files"],

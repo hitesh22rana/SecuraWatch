@@ -1,5 +1,5 @@
 # Purpose: Main file and entry point of the application
-# Path: backend\app\main.py
+# Path: backend\src\main.py
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -7,7 +7,8 @@ from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.routers import files
+from src.detect.router import router as detect_router
+from src.files.router import router as files_router
 
 app = FastAPI(
     title="SecuraWatch",
@@ -27,7 +28,8 @@ middleware = [
 ]
 
 """Routers"""
-app.include_router(files.router, prefix="/api/v1")
+app.include_router(detect_router, prefix="/api/v1")
+app.include_router(files_router, prefix="/api/v1")
 
 
 @app.exception_handler(RequestValidationError)
