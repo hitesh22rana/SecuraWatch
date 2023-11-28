@@ -1,5 +1,5 @@
 import aiofiles
-from fastapi import File, HTTPException, UploadFile
+from fastapi import File, HTTPException, UploadFile, status
 
 from src.responses import Created
 from src.storage_manager import storage_manager
@@ -37,4 +37,7 @@ class FileService:
             )
 
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="error: files upload service unavailable",
+            ) from e

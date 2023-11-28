@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body
 
-from src.detect.service import DetectService
 from src.detect.schemas import DetectIntrusionRequestSchema
+from src.detect.service import DetectService
 
 router = APIRouter(
     tags=["Detect"],

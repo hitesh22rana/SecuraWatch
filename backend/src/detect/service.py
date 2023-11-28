@@ -1,8 +1,11 @@
-from fastapi import HTTPException
-from src.storage_manager import storage_manager
-from src.video_manager import video_manager
+import subprocess
+
+from fastapi import HTTPException, status
+
 from src.detect.schemas import DetectIntrusionRequestSchema
 from src.responses import OK
+from src.storage_manager import storage_manager
+from src.video_manager import video_manager
 
 
 class DetectService:
@@ -40,5 +43,13 @@ class DetectService:
                 },
             )
 
+        except subprocess.CalledProcessError as e:
+            raise HTTPException(
+                status_code=500, detail="error: unable to convert video to images"
+            ) from e
+
         except Exception as e:
-            raise HTTPException(status_code=500, detail=e.args[0])
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="error: intrusion detection service unavailable",
+            ) from e
