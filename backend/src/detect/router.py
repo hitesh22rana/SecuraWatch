@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 
 from src.detect.service import DetectService
+from src.detect.schemas import DetectIntrusionRequestSchema
 
 router = APIRouter(
     tags=["Detect"],
@@ -8,6 +9,6 @@ router = APIRouter(
 )
 
 
-@router.post("/intrusion/{file_id}", response_description="Detect intrusion")
-async def intrusion(file_id: str):
-    return DetectService().intrusion(file_id)
+@router.post("/intrusion", response_description="Detect intrusion")
+async def intrusion(intrusion_details: DetectIntrusionRequestSchema = Body(...)):
+    return await DetectService().intrusion(intrusion_details=intrusion_details)
