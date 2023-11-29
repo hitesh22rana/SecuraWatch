@@ -26,7 +26,11 @@ class VideoManager:
         ]
 
         try:
-            subprocess.run(ffmpeg_command, check=True)
+            subprocess.run(
+                ffmpeg_command,
+                check=True,
+                stderr=subprocess.DEVNULL,
+            )
 
         except subprocess.CalledProcessError as e:
             raise e

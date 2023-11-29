@@ -1,18 +1,23 @@
 import subprocess
 
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, BackgroundTasks
 
 from src.detect.schemas import DetectIntrusionRequestSchema
 from src.responses import OK
 from src.storage_manager import storage_manager
 from src.video_manager import video_manager
+from src.detect.background_tasks import intrusion_detection
 
 
 class DetectService:
     def __init__(self) -> None:
-        pass
+        self.frames_batch_size: int = 5
 
-    async def intrusion(self, intrusion_details: DetectIntrusionRequestSchema):
+    async def intrusion(
+        self,
+        background_tasks: BackgroundTasks,
+        intrusion_details: DetectIntrusionRequestSchema,
+    ):
         file_id: str = intrusion_details.file_id
         file_format: str = intrusion_details.file_format
 
@@ -31,10 +36,22 @@ class DetectService:
                 output_format="png",
             )
 
+            frames: list[str] = storage_manager.get_files(
+                path=output_folder, type="png"
+            )
+
+            background_tasks.add_task(
+                intrusion_detection,
+                file_id=file_id,
+                frames=frames,
+                frames_batch_size=self.frames_batch_size,
+                intrusion_type=intrusion_details.intrusion_type,
+            )
+
             return OK(
                 content={
                     "file_id": file_id,
-                    "detail": "success: intrusion detected successfully",
+                    "detail": "success: added to intrusion detection queue",
                 },
                 headers={
                     "Access-Control-Allow-Origin": "*",

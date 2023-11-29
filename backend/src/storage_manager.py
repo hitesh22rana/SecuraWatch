@@ -34,6 +34,15 @@ class StorageManager:
         return f"{StorageManager.directory}/{file_id}"
 
     @classmethod
+    def get_files(cls, path: str, type: str) -> list[str]:
+        files: list[str] = []
+        for file in os.listdir(path):
+            if file.endswith(type):
+                files.append(f"{path}/{file}")
+
+        return files
+
+    @classmethod
     def validate_file_id(cls, file_id: str) -> bool:
         return os.path.exists(
             StorageManager._get_file_path(
