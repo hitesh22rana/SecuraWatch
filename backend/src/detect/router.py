@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Body
 
 from src.detect.schemas import DetectIntrusionRequestSchema
 from src.detect.service import DetectService

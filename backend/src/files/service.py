@@ -2,7 +2,7 @@ import aiofiles
 from fastapi import File, HTTPException, UploadFile, status
 
 from src.responses import Created
-from src.storage_manager import storage_manager
+from src.storage_service import storage_service
 
 
 class FileService:
@@ -12,10 +12,10 @@ class FileService:
         pass
 
     async def upload(self, file: UploadFile = File(...)) -> Created | HTTPException:
-        file_id = storage_manager.generate_file_id()
-        file_extension = storage_manager.get_file_extension(file.filename)
-        storage_manager.make_directory(directory=file_id, scratch=False)
-        file_path = storage_manager.get_file_path(
+        file_id = storage_service.generate_file_id()
+        file_extension = storage_service.get_file_extension(file.filename)
+        storage_service.make_directory(directory=file_id, scratch=False)
+        file_path = storage_service.get_file_path(
             file_id=f"{file_id}/video", file_extension=file_extension
         )
 

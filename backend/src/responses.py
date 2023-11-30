@@ -1,6 +1,3 @@
-# Purpose: Custom responses for FastAPI
-# Path: backend\app\utils\responses.py
-
 import typing
 
 import orjson

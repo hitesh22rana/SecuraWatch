@@ -1,7 +1,7 @@
 import subprocess
 
 
-class VideoManager:
+class VideoService:
     @classmethod
     def __init__(cls):
         pass
@@ -36,4 +36,4 @@ class VideoManager:
             raise e
 
 
-video_manager = VideoManager()
+video_service = VideoService()

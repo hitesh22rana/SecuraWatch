@@ -1,8 +1,9 @@
-from ultralytics import YOLO
 from typing import Any
 
+from ultralytics import YOLO
 
-class ModelManager:
+
+class ModelService:
     _prediction_model = YOLO("models/yolov8s-seg.pt")
 
     @classmethod
@@ -19,4 +20,4 @@ class ModelManager:
             return e
 
 
-model_manager = ModelManager()
+model_service = ModelService()

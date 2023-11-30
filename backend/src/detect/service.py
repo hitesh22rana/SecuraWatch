@@ -1,12 +1,12 @@
 import subprocess
 
-from fastapi import HTTPException, status, BackgroundTasks
+from fastapi import BackgroundTasks, HTTPException, status
 
+from src.detect.background_tasks import intrusion_detection
 from src.detect.schemas import DetectIntrusionRequestSchema
 from src.responses import OK
-from src.storage_manager import storage_manager
-from src.video_manager import video_manager
-from src.detect.background_tasks import intrusion_detection
+from src.storage_service import storage_service
+from src.video_service import video_service
 
 
 class DetectService:
@@ -21,13 +21,13 @@ class DetectService:
         file_id: str = intrusion_details.file_id
         file_format: str = intrusion_details.file_format
 
-        folder_path = storage_manager.get_folder_path(file_id=file_id)
+        folder_path = storage_service.get_folder_path(file_id=file_id)
         input_path = folder_path + "/video." + file_format
         output_folder = folder_path + "/frames"
-        storage_manager.make_directory(output_folder, scratch=True)
+        storage_service.make_directory(output_folder, scratch=True)
 
         try:
-            await video_manager.video_to_image(
+            await video_service.video_to_image(
                 input_path=input_path,
                 fps=1,
                 scale_x=640,
@@ -36,7 +36,7 @@ class DetectService:
                 output_format="png",
             )
 
-            frames: list[str] = storage_manager.get_files(
+            frames: list[str] = storage_service.get_files(
                 path=output_folder, type="png"
             )
 
