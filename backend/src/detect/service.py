@@ -46,6 +46,7 @@ class DetectService:
                 frames=frames,
                 frames_batch_size=self.frames_batch_size,
                 intrusion_type=intrusion_details.intrusion_type,
+                recipient=intrusion_details.recipient,
             )
 
             return OK(
