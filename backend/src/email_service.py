@@ -1,4 +1,3 @@
-from datetime import datetime
 import smtplib
 import time
 from email.mime.multipart import MIMEMultipart
@@ -79,13 +78,11 @@ class EmailService:
             print(e)
 
     @classmethod
-    def send_intrusion_notification(cls, file_id: str, recipient: str):
+    def send_notification(cls, recipient: str, subject: str, message: str):
         cls.send_email(
             recipient=recipient,
-            subject=(
-                f"Intrusion Detected at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}"
-            ),
-            message=f"Intrusion detected in file {file_id}",
+            subject=subject,
+            message=message,
         )
 
 

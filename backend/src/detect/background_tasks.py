@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.email_service import email_service
 from src.model_service import model_service
 
@@ -20,7 +22,9 @@ def intrusion_detection(
                 break
 
         if intrusion_detected:
-            email_service.send_intrusion_notification(
-                file_id=file_id, recipient=recipient
+            email_service.send_notification(
+                recipient=recipient,
+                subject=f"Intrusion Detected at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}",
+                message=f"Intrusion detected in file {file_id}",
             )
             break
