@@ -1,13 +1,15 @@
 "use client";
 import { useCallback, useRef, useState } from "react";
+import Image from "next/image";
+
 import Webcam from "react-webcam";
 
 import { detectIntrusion } from "@/lib/api";
 
-export default function WebcamVideo() {
+export default function WebcamVideo({ email }: { email: string }) {
     const webcamRef = useRef<Webcam>(null);
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-    const captureIntervalRef = useRef<NodeJS.Timer | null>(null);
+    const captureIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const [capturing, setCapturing] = useState<boolean>(false);
 
     const handleStartCaptureClick = useCallback(() => {
@@ -20,19 +22,22 @@ export default function WebcamVideo() {
             }
         }, 10000);
 
-        // Set up media recorder
         mediaRecorderRef.current = new MediaRecorder(
             webcamRef.current!.stream as MediaStream,
             {
                 mimeType: "video/webm",
             }
         );
-        mediaRecorderRef.current.addEventListener(
-            "dataavailable",
-            detectIntrusion
-        );
+        mediaRecorderRef.current.addEventListener("dataavailable", (event) => {
+            if (event.data.size > 0) {
+                detectIntrusion({
+                    data: event.data,
+                    email: email,
+                });
+            }
+        });
         mediaRecorderRef.current.start();
-    }, [webcamRef, setCapturing, mediaRecorderRef]);
+    }, [webcamRef, setCapturing, mediaRecorderRef, email]);
 
     const handleStopCaptureClick = useCallback(() => {
         mediaRecorderRef.current!.stop();
@@ -45,33 +50,42 @@ export default function WebcamVideo() {
     }, [mediaRecorderRef, setCapturing]);
 
     const videoConstraints = {
-        width: 420,
-        height: 420,
+        width: 640,
+        height: 640,
         facingMode: "user",
     };
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 h-full w-full p-10">
+        <div className="relative flex flex-col items-center justify-center gap-4 p-10">
+            <Image
+                src="/assets/recording.png"
+                alt="recording"
+                width={100}
+                height={100}
+                className={`${
+                    capturing ? "block" : "hidden"
+                } absolute top-8 left-10 w-auto h-auto`}
+            />
             <Webcam
-                className="rounded outline-dotted"
                 height={640}
                 width={640}
                 audio={false}
                 mirrored={false}
                 ref={webcamRef}
+                imageSmoothing={true}
                 videoConstraints={videoConstraints}
             />
             {capturing ? (
                 <button
                     onClick={handleStopCaptureClick}
-                    className="bg-red-500 text-white font-semibold transition-all duration-150 hover:bg-red-400 px-8 py-4 rounded"
+                    className="bg-red-500 text-white rounded px-8 py-2 transition-all duration-150 hover:bg-red-400"
                 >
                     Stop Capture
                 </button>
             ) : (
                 <button
                     onClick={handleStartCaptureClick}
-                    className="bg-green-500 text-white font-semibold transition-all duration-150 hover:bg-green-400 px-8 py-4 rounded"
+                    className="bg-green-500 text-white rounded px-8 py-2 transition-all duration-150 hover:bg-green-400"
                 >
                     Start Capture
                 </button>
