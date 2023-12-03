@@ -2,7 +2,7 @@
 import { useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
 
-import { handleVideoUpload } from "@/lib/api";
+import { detectIntrusion } from "@/lib/api";
 
 export default function WebcamVideo() {
     const webcamRef = useRef<Webcam>(null);
@@ -29,7 +29,7 @@ export default function WebcamVideo() {
         );
         mediaRecorderRef.current.addEventListener(
             "dataavailable",
-            handleVideoUpload
+            detectIntrusion
         );
         mediaRecorderRef.current.start();
     }, [webcamRef, setCapturing, mediaRecorderRef]);
@@ -51,19 +51,30 @@ export default function WebcamVideo() {
     };
 
     return (
-        <div>
+        <div className="flex flex-col items-center justify-center gap-4 h-full w-full p-10">
             <Webcam
-                height={400}
-                width={400}
+                className="rounded outline-dotted"
+                height={640}
+                width={640}
                 audio={false}
                 mirrored={false}
                 ref={webcamRef}
                 videoConstraints={videoConstraints}
             />
             {capturing ? (
-                <button onClick={handleStopCaptureClick}>Stop Capture</button>
+                <button
+                    onClick={handleStopCaptureClick}
+                    className="bg-red-500 text-white font-semibold transition-all duration-150 hover:bg-red-400 px-8 py-4 rounded"
+                >
+                    Stop Capture
+                </button>
             ) : (
-                <button onClick={handleStartCaptureClick}>Start Capture</button>
+                <button
+                    onClick={handleStartCaptureClick}
+                    className="bg-green-500 text-white font-semibold transition-all duration-150 hover:bg-green-400 px-8 py-4 rounded"
+                >
+                    Start Capture
+                </button>
             )}
         </div>
     );

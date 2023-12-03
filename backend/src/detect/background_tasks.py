@@ -17,7 +17,10 @@ def intrusion_detection(
 
         intrusion_detected: bool = False
         for result in results:
-            if result.names[result.boxes[0].cls[0].item()] == intrusion_type:
+            if (
+                len(result.boxes) != 0
+                and result.names[result.boxes[0].cls[0].item()] == intrusion_type
+            ):
                 intrusion_detected = True
                 break
 
