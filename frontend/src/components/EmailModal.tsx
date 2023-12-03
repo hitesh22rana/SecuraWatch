@@ -1,33 +1,51 @@
 "use client";
 
 import { useState } from "react";
+import { isValidEmail } from "@/lib/validators";
 
 type props = {
     handleSetEmail: (email: string) => void;
 };
 
 const EmailPopup = ({ handleSetEmail }: props) => {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const emailValue: string = e.target.value;
+        setEmail(emailValue);
+
+        if (!isValidEmail(emailValue)) {
+            setErrorMessage("Invalid email format.");
+        } else {
+            setErrorMessage(null);
+        }
+    };
 
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="fixed top-0 left-0 w-full h-full bg-opacity-50 flex items-center justify-center">
-                <div className="flex flex-col items-center justify-center bg-white rounded shadow-lg w-[500px] gap-2 h-auto px-3 py-4 z-[9999]">
-                    <h2 className="text-xl font-bold mb-4">
+                <div className="flex flex-col items-start justify-center bg-white rounded shadow-lg w-[500px] gap-2 h-auto px-3 py-4 z-[9999]">
+                    <h3 className="text-xl font-bold mb-4">
                         Enter the email on which you want to receive
                         notifications.
-                    </h2>
+                    </h3>
                     <input
                         type="email"
-                        id="userEmail"
+                        name="email"
                         placeholder="Enter email"
-                        className="w-full border p-2 mb-4 outline-none"
+                        required={true}
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={onChange}
+                        className="w-full border p-2 outline-none"
                     />
+                    <span className="h-5 text-left font-medium text-sm text-red-500">
+                        {errorMessage}
+                    </span>
                     <button
+                        disabled={!isValidEmail(email)}
                         onClick={() => handleSetEmail(email)}
-                        className="bg-blue-500 text-white p-3 rounded w-full"
+                        className="rounded bg-blue-500 w-full p-3 text-sm text-white transition-all duration-300 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed hover:disabled:blur-[1px] sm:py-3 sm:text-xl"
                     >
                         Save
                     </button>
