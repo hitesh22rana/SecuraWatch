@@ -45,8 +45,8 @@ class StorageService:
     @classmethod
     def validate_file_id(cls, file_id: str) -> bool:
         return os.path.exists(
-            StorageService._get_file_path(
-                file_id, StorageService._get_file_extension(file_id)
+            StorageService.get_file_path(
+                file_id, StorageService.get_file_extension(file_id)
             )
         )
 

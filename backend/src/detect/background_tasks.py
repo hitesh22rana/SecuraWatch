@@ -5,7 +5,7 @@ from src.model_service import model_service
 
 
 def intrusion_detection(
-    file_id,
+    file_id: str,
     frames: list[str],
     frames_batch_size: int,
     intrusion_type: str,
@@ -28,6 +28,6 @@ def intrusion_detection(
             email_service.send_notification(
                 recipient=recipient,
                 subject=f"Intrusion Detected at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}",
-                message=f"Intrusion detected in file {file_id}",
+                download_link=f"http://127.0.0.1:8000/api/v1/files/download/{file_id}",
             )
             break

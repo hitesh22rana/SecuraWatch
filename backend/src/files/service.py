@@ -1,5 +1,6 @@
 import aiofiles
 from fastapi import File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 
 from src.responses import Created
 from src.storage_service import storage_service
@@ -41,3 +42,25 @@ class FileService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="error: files upload service unavailable",
             ) from e
+
+    async def download(self, file_id: str) -> FileResponse | HTTPException:
+        if not storage_service.validate_file_id(file_id=file_id):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="error: invalid file id",
+            )
+
+        return FileResponse(
+            path=storage_service.get_file_path(
+                file_id=f"{file_id}/video", file_extension=".webm"
+            ),
+            media_type="video/webm",
+            filename=f"{file_id}.webm",
+            headers={
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Content-Disposition": f"attachment; filename={file_id}.webm",
+                "Content-Type": "video/webm",
+            },
+        )

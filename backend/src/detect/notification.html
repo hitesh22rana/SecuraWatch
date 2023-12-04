@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Intrusion Detected - SecuraWatch</title>
+    </head>
+    <body
+        style="
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        "
+    >
+        <h2 style="color: #333">{{ subject }}</h2>
+
+        <p style="color: #666">
+            Dear User,<br />
+            We have detected an intrusion on your SecuraWatch surveillance
+            system. Please find the video file attached for your reference.
+        </p>
+
+        <hr style="border: 1px solid #ddd" />
+
+        <a
+            href="{{ download_link }}"
+            style="
+                text-decoration: none;
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #4285f4;
+                color: #fff;
+                border-radius: 5px;
+                font-weight: bold;
+            "
+        >
+            Download Video
+        </a>
+
+        <p style="color: #666; margin-top: 20px">
+            If you have any questions or concerns, please contact us.
+        </p>
+
+        <p style="color: #999; font-size: 12px; margin-top: 20px">
+            This is an automated email. Please do not reply.
+        </p>
+    </body>
+</html>
