@@ -65,7 +65,7 @@ export default function WebcamVideo({ email }: { email: string }) {
                 height={100}
                 className={`${
                     capturing ? "block" : "hidden"
-                } absolute top-8 left-10 w-auto h-auto`}
+                } absolute top-8 left-10 w-32 h-24`}
             />
             <Webcam
                 height={640}

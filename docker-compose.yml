@@ -11,14 +11,22 @@ services:
         networks:
             - securawatch
         env_file:
-            - ./backend/.env.example
-        environment:
-            - SMTP_HOST=smtp.gmail.com
-            - SMTP_PORT=587
-            - SMTP_USERNAME=
-            - SMTP_PASSWORD=
+            - ./backend/.env
         ports:
             - "8000:8000"
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: frontend
+        restart: always
+        networks:
+            - securawatch
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
 
 networks:
     securawatch:
