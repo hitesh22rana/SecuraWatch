@@ -1,0 +1,25 @@
+version: "3"
+name: "securawatch"
+
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: backend
+        restart: always
+        networks:
+            - securawatch
+        env_file:
+            - ./backend/.env.example
+        environment:
+            - SMTP_HOST=smtp.gmail.com
+            - SMTP_PORT=587
+            - SMTP_USERNAME=
+            - SMTP_PASSWORD=
+        ports:
+            - "8000:8000"
+
+networks:
+    securawatch:
+        name: securawatch
