@@ -11,6 +11,7 @@ def intrusion_detection(
     intrusion_type: str,
     recipient: str,
 ):
+    delete_source: bool = True
     for index in range(0, len(frames), frames_batch_size):
         batch = frames[index : index + frames_batch_size]
         results = model_service.predict(batch)
@@ -22,6 +23,7 @@ def intrusion_detection(
                 and result.names[result.boxes[0].cls[0].item()] == intrusion_type
             ):
                 intrusion_detected = True
+                delete_source = False
                 break
 
         if intrusion_detected:
@@ -31,3 +33,7 @@ def intrusion_detection(
                 download_link=f"http://127.0.0.1:8000/api/v1/files/download/{file_id}",
             )
             break
+
+    if delete_source:
+        # TODO:- delete file if no intrsuion is detected
+        print("Deleting source file...")
