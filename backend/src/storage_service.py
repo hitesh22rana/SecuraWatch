@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import datetime
 from uuid import uuid4
 
@@ -49,6 +50,14 @@ class StorageService:
                 file_id, StorageService.get_file_extension(file_id)
             )
         )
+
+    @classmethod
+    def delete_directory(cls, directory: str) -> None:
+        path: str = StorageService.directory + "/" + directory
+        if not os.path.exists(path):
+            return None
+
+        shutil.rmtree(path)
 
 
 storage_service = StorageService()

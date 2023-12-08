@@ -2,6 +2,7 @@ from datetime import datetime
 
 from src.email_service import email_service
 from src.model_service import model_service
+from src.storage_service import storage_service
 
 
 def intrusion_detection(
@@ -11,19 +12,17 @@ def intrusion_detection(
     intrusion_type: str,
     recipient: str,
 ):
-    delete_source: bool = True
+    intrusion_detected: bool = False
     for index in range(0, len(frames), frames_batch_size):
         batch = frames[index : index + frames_batch_size]
         results = model_service.predict(batch)
 
-        intrusion_detected: bool = False
         for result in results:
             if (
                 len(result.boxes) != 0
                 and result.names[result.boxes[0].cls[0].item()] == intrusion_type
             ):
                 intrusion_detected = True
-                delete_source = False
                 break
 
         if intrusion_detected:
@@ -34,6 +33,5 @@ def intrusion_detection(
             )
             break
 
-    if delete_source:
-        # TODO:- delete file if no intrsuion is detected
-        print("Deleting source file...")
+    if not intrusion_detected:
+        storage_service.delete_directory(file_id)
