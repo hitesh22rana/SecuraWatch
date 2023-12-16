@@ -4,6 +4,7 @@ from ultralytics import YOLO
 
 
 class ModelService:
+    # Segmeneted model
     _prediction_model = YOLO("models/yolov8s-seg.pt")
 
     @classmethod
