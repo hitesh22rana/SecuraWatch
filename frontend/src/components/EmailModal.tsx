@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { isValidEmail } from "@/lib/validators";
+import { useState } from 'react';
+import { isValidEmail } from '@/lib/validators';
 
 type props = {
     handleSetEmail: (email: string) => void;
 };
 
 const EmailPopup = ({ handleSetEmail }: props) => {
-    const [email, setEmail] = useState<string>("");
+    const [email, setEmail] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ const EmailPopup = ({ handleSetEmail }: props) => {
         setEmail(emailValue);
 
         if (!isValidEmail(emailValue)) {
-            setErrorMessage("Invalid email format.");
+            setErrorMessage('Invalid email format.');
         } else {
             setErrorMessage(null);
         }

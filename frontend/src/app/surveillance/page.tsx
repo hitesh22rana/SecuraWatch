@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import EmailPopup from "@/components/EmailModal";
-import VideoRecorder from "@/components/VideoRecorder";
-import Image from "next/image";
+import EmailPopup from '@/components/EmailModal';
+import VideoRecorder from '@/components/VideoRecorder';
+import Image from 'next/image';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function Home() {
     const [email, setEmail] = useState<string | null>();
 
     useEffect(() => {
-        setEmail(localStorage.getItem("securawatch_notification_email"));
+        setEmail(localStorage.getItem('securawatch_notification_email'));
     }, []);
 
     const handleSetEmail = (email: string) => {

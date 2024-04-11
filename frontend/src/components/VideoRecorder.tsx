@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useState } from "react";
-import Image from "next/image";
+import { useCallback, useRef, useState } from 'react';
+import Image from 'next/image';
 
-import Webcam from "react-webcam";
+import Webcam from 'react-webcam';
 
-import { detectIntrusion } from "@/lib/api";
+import { detectIntrusion } from '@/lib/api';
 
 export default function WebcamVideo({ email }: { email: string }) {
     const webcamRef = useRef<Webcam>(null);
@@ -26,10 +26,10 @@ export default function WebcamVideo({ email }: { email: string }) {
         mediaRecorderRef.current = new MediaRecorder(
             webcamRef.current!.stream as MediaStream,
             {
-                mimeType: "video/webm",
-            }
+                mimeType: 'video/webm',
+            },
         );
-        mediaRecorderRef.current.addEventListener("dataavailable", (event) => {
+        mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
             if (event.data.size > 0) {
                 detectIntrusion({
                     data: event.data,
@@ -53,7 +53,7 @@ export default function WebcamVideo({ email }: { email: string }) {
     const videoConstraints = {
         width: 640,
         height: 640,
-        facingMode: "user",
+        facingMode: 'user',
     };
 
     return (
@@ -64,7 +64,7 @@ export default function WebcamVideo({ email }: { email: string }) {
                 width={100}
                 height={100}
                 className={`${
-                    capturing ? "block" : "hidden"
+                    capturing ? 'block' : 'hidden'
                 } absolute top-8 left-10 w-32 h-24`}
             />
             <Webcam
