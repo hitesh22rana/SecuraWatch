@@ -1,9 +1,9 @@
 # Base image
-FROM python:3.11-slim-buster
+FROM python:3.11
 
 # Install system dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg \
+    && apt-get install -y --no-install-recommends ffmpeg gcc build-essential libpython3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /backend
