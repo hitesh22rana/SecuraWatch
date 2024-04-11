@@ -24,10 +24,15 @@ Follow these steps to set up and run SecuraWatch:
 
     ```bash
     git clone https://github.com/hitesh22rana/SecuraWatch.git
+    ```
+
+2.  Navigate to the Securawatch directory
+
+    ```bash
     cd SecuraWatch
     ```
 
-2.  **Configuration:**
+3.  **Configuration:**
 
     Copy the .env.example file from the backend folder and paste your credentials.
 
@@ -37,10 +42,30 @@ Follow these steps to set up and run SecuraWatch:
 
     Update the .env file with your specific credentials.
 
-3.  **Build and run the application**
+4.  **Build and run the application**
 
     ```bash
     docker-compose -f docker-compose.yml up
+    ```
+
+    or
+
+    ```bash
+    make run
+    ```
+
+5.  After the successful build your app will be up and running and you can access it via `http://localhost:3000`.
+
+6.  Clean and remove the running application
+
+    ```bash
+    docker-compose -f docker-compose.yml down --remove-orphans
+    ```
+
+    or
+
+    ```bash
+    make clean
     ```
 
 ## Acknowledgments
