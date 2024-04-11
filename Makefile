@@ -1,19 +1,31 @@
-.PHONY: dependencies format-backend format-frontend lint lint-fix run-frontend-dev
+.PHONY: dependencies-backend dependencies-frontend lint-backend lint-frontend format-backend format-frontend run-backend-dev run-client-dev run clean
 
-dependencies:
-	@sh scripts/dependencies.sh
+dependencies-backend:
+	@sh scripts/backend/dependencies.sh
+
+dependencies-frontend:
+	@sh scripts/frontend/dependencies.sh
+
+lint-backend:
+	@sh scripts/backend/lint.sh
+
+lint-frontend:
+	@sh scripts/frontend/lint.sh
 
 format-backend:
-	@sh scripts/format-backend.sh
+	@sh scripts/backend/format.sh
 
 format-frontend:
-	@sh scripts/format-frontend.sh
+	@sh scripts/frontend/format.sh
 
-lint:
-	@sh scripts/lint.sh
+run-backend-dev:
+	@sh scripts/backend/run-dev.sh
 
-lint-fix:
-	@sh scripts/lint.sh --fix
+run-client-dev:
+	@sh scripts/frontend/run-dev.sh
 
-run-frontend-dev:
-	@sh scripts/frontend-dev.sh
+run: clean
+	@sh scripts/run.sh
+
+clean:
+	@docker-compose -f docker-compose.yml down --remove-orphans
