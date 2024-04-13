@@ -34,10 +34,16 @@ Follow these steps to set up and run SecuraWatch:
 
 3.  **Configuration:**
 
-    Copy the .env.example file from the backend folder and paste your credentials.
+    Copy the .env.example file from the `backend` and `frontend` folder and paste your credentials.
 
     ```bash
     cp backend/.env.example backend/.env
+    ```
+
+    and
+
+    ```bash
+    cp frontend/.env.example frontend/.env
     ```
 
     Update the .env file with your specific credentials.

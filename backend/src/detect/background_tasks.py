@@ -3,6 +3,7 @@ from datetime import datetime
 from src.email_service import email_service
 from src.model_service import model_service
 from src.storage_service import storage_service
+from src.config import settings
 
 
 def intrusion_detection(
@@ -29,7 +30,7 @@ def intrusion_detection(
             email_service.send_notification(
                 recipient=recipient,
                 subject=f"Intrusion Detected at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}",
-                download_link=f"http://127.0.0.1:8000/api/v1/files/download/{file_id}",
+                download_link=f"{settings.backend_api_url}/files/download/{file_id}",
             )
             break
 

@@ -29,12 +29,7 @@ class FileService:
                 content={
                     "file_id": file_id,
                     "detail": "success: file uploaded successfully",
-                },
-                headers={
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "POST",
-                    "Access-Control-Allow-Headers": "Content-Type",
-                },
+                }
             )
 
         except Exception as e:
@@ -57,9 +52,6 @@ class FileService:
             media_type="video/webm",
             filename=f"{file_id}.webm",
             headers={
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-                "Access-Control-Allow-Headers": "Content-Type",
                 "Content-Disposition": f"attachment; filename={file_id}.webm",
                 "Content-Type": "video/webm",
             },

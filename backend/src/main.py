@@ -7,12 +7,6 @@ from fastapi.responses import JSONResponse
 from src.detect.router import router as detect_router
 from src.files.router import router as files_router
 
-app = FastAPI(
-    title="SecuraWatch",
-    description="SecuraWatch: Vigilance Redefined, Security Reinvented",
-    version="1.0.0",
-)
-
 """Middleware"""
 middleware = [
     Middleware(
@@ -23,6 +17,13 @@ middleware = [
         allow_headers=["*"],
     ),
 ]
+
+app = FastAPI(
+    title="SecuraWatch",
+    description="SecuraWatch: Vigilance Redefined, Security Reinvented",
+    version="1.0.0",
+    middleware=middleware,
+)
 
 """Routers"""
 app.include_router(detect_router, prefix="/api/v1")
