@@ -1,6 +1,6 @@
 from fastapi import APIRouter, BackgroundTasks, Body
 
-from src.detect.schemas import DetectIntrusionRequestSchema
+from src.detect.schemas import DetectIntrusionRequestSchema, DetectThreatRequestSchema
 from src.detect.service import DetectService
 
 router = APIRouter(
@@ -16,4 +16,14 @@ async def intrusion(
 ):
     return await DetectService().intrusion(
         background_tasks=background_tasks, intrusion_details=intrusion_details
+    )
+
+
+@router.post("/threat", response_description="Detect threat")
+async def threat(
+    background_tasks: BackgroundTasks,
+    threat_details: DetectThreatRequestSchema = Body(...),
+):
+    return await DetectService().threat(
+        background_tasks=background_tasks, threat_details=threat_details
     )

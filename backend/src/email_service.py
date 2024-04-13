@@ -84,10 +84,12 @@ class EmailService:
             print(e)
 
     @classmethod
-    def send_notification(cls, recipient: str, subject: str, download_link: str):
+    def send_notification(
+        cls, recipient: str, title: str, subject: str, message: str, download_link: str
+    ):
         template = cls.templates.get_template(cls.notification_template)
         rendered_template = template.render(
-            subject=subject, download_link=download_link
+            title=title, subject=subject, message=message, download_link=download_link
         )
 
         cls.send_email(
