@@ -1,21 +1,14 @@
 'use client';
 
-import EmailPopup from '@/components/EmailModal';
-import VideoRecorder from '@/components/VideoRecorder';
 import Image from 'next/image';
 
-import { useEffect, useState } from 'react';
+import SurveillanceSettingsModal from '@/components/SurveillanceSettingsModal';
+import VideoRecorder from '@/components/VideoRecorder';
+
+import useSettings from '@/store/surveillance-settings';
 
 export default function Home() {
-    const [email, setEmail] = useState<string | null>();
-
-    useEffect(() => {
-        setEmail(localStorage.getItem('securawatch_notification_email'));
-    }, []);
-
-    const handleSetEmail = (email: string) => {
-        setEmail(email);
-    };
+    const { email, surveillanceType } = useSettings();
 
     return (
         <main className="flex flex-col items-center justify-center w-screen h-screen">
@@ -27,10 +20,10 @@ export default function Home() {
                 className="w-full h-full bg-contain absolute -z-50 brightness-50"
             />
 
-            {email ? (
-                <VideoRecorder email={email} />
+            {email && surveillanceType ? (
+                <VideoRecorder />
             ) : (
-                <EmailPopup handleSetEmail={handleSetEmail} />
+                <SurveillanceSettingsModal />
             )}
         </main>
     );

@@ -2,16 +2,17 @@
 
 import { useCallback, useRef, useState } from 'react';
 import Image from 'next/image';
-
 import Webcam from 'react-webcam';
 
-import { detectIntrusion } from '@/lib/api';
+import useSettings from '@/store/surveillance-settings';
+import { detectIntrusion, detectThreat } from '@/lib/api';
 
-export default function WebcamVideo({ email }: { email: string }) {
+export default function WebcamVideo() {
     const webcamRef = useRef<Webcam>(null);
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const captureIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const [capturing, setCapturing] = useState<boolean>(false);
+    const { email, surveillanceType } = useSettings();
 
     const handleStartCaptureClick = useCallback(() => {
         setCapturing(true);
@@ -29,16 +30,29 @@ export default function WebcamVideo({ email }: { email: string }) {
                 mimeType: 'video/webm',
             },
         );
+
         mediaRecorderRef.current.addEventListener('dataavailable', (event) => {
             if (event.data.size > 0) {
-                detectIntrusion({
-                    data: event.data,
-                    email: email,
-                });
+                switch (surveillanceType) {
+                    case 'intrusion':
+                        detectIntrusion({
+                            data: event.data,
+                            email: email as string,
+                        });
+                        break;
+                    case 'threat':
+                        detectThreat({
+                            data: event.data,
+                            email: email as string,
+                        });
+                        break;
+                    default:
+                        break;
+                }
             }
         });
         mediaRecorderRef.current.start();
-    }, [webcamRef, setCapturing, mediaRecorderRef, email]);
+    }, [webcamRef, setCapturing, mediaRecorderRef, email, surveillanceType]);
 
     const handleStopCaptureClick = useCallback(() => {
         mediaRecorderRef.current!.stop();

@@ -44,4 +44,5 @@ def isWeapon(class_name: str):
         "trap",
         "snare",
         "net",
+        "fork",
     ]

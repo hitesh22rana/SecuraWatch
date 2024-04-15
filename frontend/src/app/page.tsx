@@ -22,7 +22,7 @@ export default function Home() {
 
             <Link
                 href="/surveillance"
-                className="text-white text-xl rounded border-2 px-4 py-2 my-10 hover:brightness-75 transition-all duration-150 animate-pulse"
+                className="text-white text-xl rounded border-2 px-4 py-2 my-10 hover:brightness-75 transition-all duration-150"
             >
                 Get Started
             </Link>

@@ -12,6 +12,7 @@ from src.video_service import video_service
 class DetectService:
     def __init__(self) -> None:
         self.frames_batch_size: int = 5
+        self.min_confidence: float = 0.5
 
     async def intrusion(
         self,
@@ -45,6 +46,7 @@ class DetectService:
                 file_id=file_id,
                 frames=frames,
                 frames_batch_size=self.frames_batch_size,
+                min_confidence=self.min_confidence,
                 intrusion_type=intrusion_details.intrusion_type,
                 recipient=intrusion_details.recipient,
             )
@@ -99,6 +101,7 @@ class DetectService:
                 file_id=file_id,
                 frames=frames,
                 frames_batch_size=self.frames_batch_size,
+                min_confidence=self.min_confidence,
                 intrusion_type=threat_details.intrusion_type,
                 recipient=threat_details.recipient,
             )
