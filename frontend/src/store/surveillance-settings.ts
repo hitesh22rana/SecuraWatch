@@ -9,16 +9,19 @@ interface Settings {
 
     setEmail: (email: string) => void;
     setSurveillanceType: (surveillanceType: TSurveillance) => void;
+    resetSurveillanceSettings: () => void;
 }
 
-const _useSettings = create<Settings>((set, get) => ({
+const _useSurveillanceSettings = create<Settings>((set, get) => ({
     email: null,
     surveillanceType: null,
 
     setEmail: (email: string) => set({ email }),
     setSurveillanceType: (surveillanceType: TSurveillance) =>
         set({ surveillanceType }),
+    resetSurveillanceSettings: () =>
+        set({ email: null, surveillanceType: null }),
 }));
 
-const useSettings = createTrackedSelector(_useSettings);
-export default useSettings;
+const useSurveillanceSettings = createTrackedSelector(_useSurveillanceSettings);
+export default useSurveillanceSettings;
