@@ -178,7 +178,6 @@ const SurveillanceSettingsModal = () => {
             </div>
         </div>
     );
-    ``;
 };
 
 export default SurveillanceSettingsModal;
